@@ -8,9 +8,7 @@ export default defineConfig({
     outDir: 'dist'
   },
   server: {
-    fs: {
-      strict: false
-    }
+    historyApiFallback: true
   },
   optimizeDeps: {
     include: ["swiper"]
