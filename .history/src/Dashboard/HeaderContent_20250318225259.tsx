@@ -122,9 +122,7 @@ const HeaderContent: React.FC = () => {
               className="logout-btn"
               onClick={() =>
                 setTimeout(() => {
-                  localStorage.clear(); // ✅ Clear stored data
-                  sessionStorage.clear();
-                  navigate("/");
+                  navigate("/login");
                   window.location.reload();
                 }, 100)
               }

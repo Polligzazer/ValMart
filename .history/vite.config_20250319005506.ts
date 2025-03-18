@@ -6,12 +6,10 @@ export default defineConfig({
   plugins: [react()],
   base: '/',
   build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: {
-        main: '/index.html'
-      }
-    }
+    outDir: 'dist'
+  },
+  server: {
+    historyApiFallback: true
   },
   optimizeDeps: {
     include: ["swiper"]

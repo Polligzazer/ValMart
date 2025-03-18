@@ -4,8 +4,6 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  setPersistence, 
-  browserSessionPersistence
 } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
@@ -22,11 +20,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-setPersistence(auth, browserSessionPersistence)
-  .then(() => console.log("Persistence set to session only"))
-  .catch((error) => console.error("Persistence error:", error));
-
 export {
   auth,
   createUserWithEmailAndPassword,

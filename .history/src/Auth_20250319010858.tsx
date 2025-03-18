@@ -3,7 +3,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion } from "framer-motion";
-import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./Dashboard/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -29,63 +28,51 @@ export default function AuthPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("User found, navigating to /dashboard");
-        navigate("/dashboard", { replace: true });
-      } else {
-        console.log("No user found, redirecting to /");
-        navigate("/", { replace: true });
-      }
-      setLoading(false); // ✅ Only stop loading when Firebase has finished checking
-    });
-
-    return () => unsubscribe();
-  }, [navigate]);
-
-
   const handleAuth = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
     setLoading(true);
 
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigate("/dashboard", { replace: true });
+        }
+        setLoading(false); // Stop loading once auth state is checked
+      });
+
     try {
-        if (isSignUp) {
-            if (password !== confirmPassword) {
-                throw new Error("Passwords do not match.");
-            }
-
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            await setDoc(doc(db, "users", user.uid), {
-                username,
-                email,
-                section,
-                gradeLevel,
-                createdAt: serverTimestamp(),
-            });
-
-            console.log("User created:", user.uid);
-        } else {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            console.log("Logged in as:", user.uid, user.email);
+      if (isSignUp) {
+        if (password !== confirmPassword) {
+          throw new Error("Passwords do not match.");
         }
 
-        // ✅ Delay navigation slightly to ensure Firebase fully updates the auth state
-        setTimeout(() => {
-            navigate("/dashboard", { replace: true });
-        }, 200);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
 
+        await setDoc(doc(db, "users", user.uid), {
+          username,
+          email,
+          section,
+          gradeLevel,
+          createdAt: serverTimestamp(),
+        });
+
+        navigate("/dashboard", { replace: true });
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate("/dashboard", { replace: true });
+      }
     } catch (error: any) {
-        setErrorMessage(error.message || "Error, please try again.");
+      setErrorMessage(error.message || "Error, please try again.");
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
   if (loading) {
     return <div className="text-center mt-5">🔄 Checking authentication...</div>;
