@@ -39,7 +39,6 @@
       "src": "/(.*)",
       "status": 200,
       "dest": "/index.html",
-      "trailingSlash": true,
       "cleanUrls": true
     }
   ]
