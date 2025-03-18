@@ -27,6 +27,7 @@
           }
         },
         "files": [
+          "dist/**/*",
           "public/**/*",
           "src/**/*.{js,jsx,ts,tsx}",
           "!**/node_modules/**"
