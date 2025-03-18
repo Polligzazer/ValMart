@@ -17,7 +17,7 @@ export default function Header() {
           <div className="col">
             <h4 className="mb-0 text-danger fw-bold">VALMARKET</h4>
             <p className="small text-muted mb-0">
-              Valenzuela City School of Mathematics and Science Market
+              Valmerica City School of Mathematics and Science Market
             </p>
           </div>
         </div>
