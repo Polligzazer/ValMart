@@ -68,7 +68,7 @@ export default function AuthPage() {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
         setTimeout(() => {
-          navigate("/dashboard", { replace: true });
+          navigate("/dashboard");
           window.location.reload();
         }, 100);
       }

@@ -62,13 +62,13 @@ export default function AuthPage() {
         });
 
         setTimeout(() => {
-          navigate("/dashboard", { replace: true });
+          navigate("/dashboard");
           window.location.reload();
         }, 100);
       } else {
         await signInWithEmailAndPassword(auth, email, password);
         setTimeout(() => {
-          navigate("/dashboard", { replace: true });
+          navigate("/dashboard");
           window.location.reload();
         }, 100);
       }
